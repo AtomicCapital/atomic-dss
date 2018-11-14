@@ -1,0 +1,25 @@
+{
+  "name": "atomic-token",
+  "version": "1.0.0",
+  "description": "Extendable smart contracts for tokenized securities issuance and automated regulatory compliance\r ## Overview\r Atomic Token is a permissioned, ERC-20 compatible token that enforces transfer restrictions based on an upgradeable `Regulator Service` contract. Once deployed, the `Regulator Service` can be replaced and configured to maintain ongoing compliance with securities regulations--including the enforcement of KYC/AML requirements, accredited investor checks, trading lock-up periods, tax laws, and other contractual agreements. The Atomic Token architecture provides token issuers the freedom to implement an arbitrary list of restrictions logic, with the flexibility to update these restrictions to account for changes in an evolving regulatory environment. \r ## Requirements\r * Atomic Token implements the standard `transfer()` and `transferFrom()` methods with an additional check to enforce transfer restrictions on-chain. This is done by defining a modifier `notRestricted()` that calls `verify()` from inside the `Regulator Service` and returns true only when all checks are passed for both the sender and receiver\r * The `verify()` method returns byte code that signals the status of a transfer and the specific reason for a restriction if it occurs. Additionally, the `Regulator Service` implements `restrictionMessage()` that inputs that byte code and returns a human-readable error message corresponding to the reason for restriction\r * In order to allow for upgrading the token's restrictions logic, the Atomic Token abstracts the `Regulator Service` by storing a reference to its contract address and implements `replaceRegulator()` that changes the pointer to the address of a new `Regulator Service`.\r * Enable specific permissions for admins to `mint()` and `burn()` tokens, and grant ability to `forceTransfer()` on any token holder found to be in violation of domestic or international laws. Additionally, Atomic Token provides support for third-party exchanges and custodians to add to investor whitelist \r ## Specification\r Atomic Token builds on the ERC-20 standard and provides additional functionality:\r ```solidity\r contract AtomicToken is ERC20 {\r modifier notRestricted (address from, address to, uint256 value);\r modifier onlyOwner (address _addr);\r event ReplaceRegulator(address oldRegulator, address newRegulator);",
+  "main": "truffle.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atomiccapital/atomic-token.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/atomiccapital/atomic-token/issues"
+  },
+  "homepage": "https://github.com/atomiccapital/atomic-token#readme",
+  "dependencies": {
+    "openzeppelin-solidity": "2.0.0"
+  }
+}
