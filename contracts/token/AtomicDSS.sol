@@ -118,6 +118,7 @@ contract AtomicDSS is ERC20, Ownable {
     function mint(address _account, uint256 _amount) 
         public
         onlyOwner
+        returns (bool)
     {
         super._mint(_account, _amount);
     }
@@ -132,32 +133,23 @@ contract AtomicDSS is ERC20, Ownable {
     function burn(address _account, uint256 _amount) 
         public
         onlyOwner
+        returns (bool)
     {
         super._burn(_account, _amount);
     }
 
    /**
-    * @dev Internal function that forces a token transfer from one address to another
+    * @dev Function that forces a token transfer from one address to another
     * @param from address The address which you want to send tokens from
     * @param to address The address which you want to transfer to
     * @param value uint256 the amount of tokens to be transferred
     */
-    function _forceTransfer(address _from, address _to, uint256 _value) internal returns (bool) {
-        require(_value <= _balances[_from]);
-        require(_to != address(0));
-
-        _balances[_from] = _balances[_from].sub(_value);
-        _balances[_to] = _balances[to].add(_value);
-        emit Transfer(_from, _to, _value);
-        return true;
-    }
-
     function forceTransfer(address _from, address _to, uint256 _value)
         public
         onlyOwner
         returns (bool)
     {
-        return _forceTransfer(_from, _to, _value);
+        return super._forceTransfer(_from, _to, _value);
     }
 
 }
