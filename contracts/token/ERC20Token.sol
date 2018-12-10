@@ -18,10 +18,6 @@ contract ERC20Token is IERC20 {
     mapping (address => uint256) internal _balances;
     mapping (address => mapping (address => uint256)) private _allowed;
     uint256 internal _totalSupply;
-    
-    string public name;
-    string public symbol;
-    uint8 public decimals;
 
    /**
     * @dev Total number of tokens in existence
